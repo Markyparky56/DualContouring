@@ -1,4 +1,6 @@
 #include "SDF.hpp"
+#include "VM\kernel.h"
+#include "VM\vm.h"
 #include <glm/ext.hpp>
 
 // ----------------------------------------------------------------------------
@@ -49,7 +51,12 @@ float FractalNoise(
 
 // ----------------------------------------------------------------------------
 
-double OctavedOpenSimplex(const int octaves, const float freq, const float lac, const float persistence, const vec3& position, const float scale = 1.0f)
+double OctavedOpenSimplex(const int octaves, 
+                          const float freq, 
+                          const float lac, 
+                          const float persistence, 
+                          const vec3& position, 
+                          const float scale = 1.0f)
 {
     static OpenSimplexNoise gen;
     float noise = 0.0f;
@@ -72,9 +79,16 @@ double OctavedOpenSimplex(const int octaves, const float freq, const float lac, 
 
 float DensityFunc(const vec3& worldPosition)
 {
+    static anl::CKernel kernel;
+    static anl::CNoiseExecutor vm(kernel);
+
+    auto b = kernel.gradientBasis(kernel.constant(anl::InterpolationTypes::INTERP_QUINTIC), kernel.seed(0));
+
+
     const float MAX_HEIGHT = 64.0f;
     //const float noise = FractalNoise(4, 0.5343f, 2.2324f, 0.68324f, vec2(worldPosition.x, worldPosition.z));
     const float noise = OctavedOpenSimplex(1, 1.f, 1.f, 1.f, worldPosition, 0.1f);
+    //const float noise = vm.e
     const float terrain = worldPosition.y - (MAX_HEIGHT * noise);
 
     const float cube = Cuboid(worldPosition, vec3(-4., 10.f, -4.f), vec3(12.f));

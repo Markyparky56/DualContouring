@@ -1,9 +1,14 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DualContouringGLFW", "DualContouringGLFW\DualContouringGLFW.vcxproj", "{885A9800-1E53-4D74-8B32-76BED1EB0C57}"
+	ProjectSection(ProjectDependencies) = postProject
+		{219FEC01-F116-4296-B940-ADA01198FC7D} = {219FEC01-F116-4296-B940-ADA01198FC7D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ANL", "ANL\ANL\ANL.vcxproj", "{219FEC01-F116-4296-B940-ADA01198FC7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +26,14 @@ Global
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x64.Build.0 = Release|x64
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x86.ActiveCfg = Release|Win32
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x86.Build.0 = Release|Win32
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Debug|x64.ActiveCfg = Debug|x64
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Debug|x64.Build.0 = Debug|x64
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Debug|x86.ActiveCfg = Debug|Win32
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Debug|x86.Build.0 = Debug|Win32
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Release|x64.ActiveCfg = Release|x64
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Release|x64.Build.0 = Release|x64
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Release|x86.ActiveCfg = Release|Win32
+		{219FEC01-F116-4296-B940-ADA01198FC7D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
