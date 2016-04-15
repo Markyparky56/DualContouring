@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\LibnoiseExt">
+      <UniqueIdentifier>{8f3d0b1d-bf66-4251-b9a6-01342d75a772}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\LibnoiseExt">
+      <UniqueIdentifier>{334c30b7-b499-4f2d-b847-ead28b049bcc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,6 +45,15 @@
     <ClCompile Include="OpenSimplexNoise.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Gradient.cpp">
+      <Filter>Source Files\LibnoiseExt</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bias.cpp">
+      <Filter>Source Files\LibnoiseExt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.hpp">
@@ -61,6 +76,15 @@
     </ClInclude>
     <ClInclude Include="OpenSimplexNoise.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Gradient.hpp">
+      <Filter>Header Files\LibnoiseExt</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainGenerator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bias.hpp">
+      <Filter>Header Files\LibnoiseExt</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

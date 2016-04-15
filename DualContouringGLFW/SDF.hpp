@@ -2,9 +2,12 @@
 // Signed Distance Functions used to determine whether given points in space are within implicit objects
 #include <glm\glm.hpp>
 #include "OpenSimplexNoise.hpp"
+#include "TerrainGenerator.hpp"
 using glm::vec3;
 using glm::vec2;
 using glm::length;
+
+static TerrainGenerator GTerrainGenerator;
 
 // Points within the sphere will have a negative density, points outwith the sphere will be positive
 //inline float Sphere(const vec3& worldPosition, const vec3& origin, float radius)

@@ -90,11 +90,11 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\include;$(SolutionDir)External\accidental-noise-library;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\include;$(SolutionDir)External\libnoiseheaders-1.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalLibraryDirectories>$(SolutionDir)External\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;opengl32.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;opengl32.lib;libnoise.lib;glew32d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(ProjectDir)shader.frag" "$(OutDir)"
@@ -109,6 +109,7 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)External\include;$(SolutionDir)External\accidental-noise-library\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -128,13 +129,14 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)External\include;$(SolutionDir)External\accidental-noise-library;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)External\include;$(SolutionDir)External\libnoiseheaders-1.0.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>$(SolutionDir)External\lib\$(Configuration);%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;glfw3dll.lib;opengl32.lib;libnoise.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(ProjectDir)shader.frag" "$(OutDir)"
@@ -142,6 +144,8 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bias.cpp" />
+    <ClCompile Include="Gradient.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Octree.cpp" />
@@ -150,8 +154,11 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     <ClCompile Include="SDF.cpp" />
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SVD.cpp" />
+    <ClCompile Include="TerrainGenerator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bias.hpp" />
+    <ClInclude Include="Gradient.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Octree.hpp" />
     <ClInclude Include="OpenSimplexNoise.hpp" />
@@ -159,6 +166,7 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     <ClInclude Include="SDF.hpp" />
     <ClInclude Include="ShaderLoader.hpp" />
     <ClInclude Include="SVD.hpp" />
+    <ClInclude Include="TerrainGenerator.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.frag" />
