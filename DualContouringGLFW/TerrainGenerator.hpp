@@ -31,46 +31,13 @@ public:
     
     
 private:
-    // Ground: Gradient Basis
-    module::Gradient ground;
-    
-    // Lowland: Billow
-    module::Billow lowland;
-    module::Clamp lowlandClamp;
-    module::ScaleBias lowlandScale;
-    
-    // Highland: Perlin (fbm)
-    module::Perlin highland;
-    module::Clamp highlandClamp;
-    module::ScaleBias highlandScale;
-    
-    // Mountains: Ridged Multi
-    module::RidgedMulti mountain;
-    module::Clamp mountainClamp;
-    module::ScaleBias mountainScale;
-    
-    // Terrain Type: Perlin (fbm)
+    module::Billow baseFlatTerrain;
+    module::ScaleBias flatTerrain;
+    module::RidgedMulti mountainTerrain;
+    module::Select terrain;
     module::Perlin terrainType;
-    module::Clamp terrainTypeClamp;
-    
-    // Selectors
-    module::Const one;
-    module::Const zero;
-    module::Select highlandMountainSelect;
-    module::Select highlandLowlandSelect;
-    module::Select groundSelect;
-    module::Select caveSelect;
+    module::Turbulence finalTerain;
 
-    // Caves: 2 Ridged Multis
-    module::Bias caveBias;
-    module::RidgedMulti cave1;
-    module::RidgedMulti cave2;
-    module::Multiply caveShape1;
-    module::Multiply caveShape2;
-    module::Perlin cavePeturb;
-    module::ScaleBias cavePeturbScale;
-    module::Multiply groundCaveMultiply; // Final value is sourced from this module
-    
     int octaves;
     float freq;
     float lac;

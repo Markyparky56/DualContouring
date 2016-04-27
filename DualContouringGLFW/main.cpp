@@ -107,10 +107,10 @@ int main()
     mesh.Initialise();
 
     OctreeNode* root = nullptr;
-    const int octreeSize = 64;
+    const int octreeSize = 128;
 
     float rotateX = DegToRad(-45.0f), rotateY = DegToRad(0.0f);
-    float distance = 48.0f;
+    float distance = 128.0f;
     bool wireframeMode = false;
     bool refreshMesh = true;
 

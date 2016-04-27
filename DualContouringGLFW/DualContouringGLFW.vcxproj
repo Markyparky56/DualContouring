@@ -144,6 +144,7 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="app.cpp" />
     <ClCompile Include="Bias.cpp" />
     <ClCompile Include="Gradient.cpp" />
     <ClCompile Include="main.cpp" />
@@ -155,9 +156,13 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="SVD.cpp" />
     <ClCompile Include="TerrainGenerator.cpp" />
+    <ClCompile Include="ThreadFarm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="app.hpp" />
     <ClInclude Include="Bias.hpp" />
+    <ClInclude Include="ContourTask.hpp" />
+    <ClInclude Include="GenerateTask.hpp" />
     <ClInclude Include="Gradient.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Octree.hpp" />
@@ -165,8 +170,11 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     <ClInclude Include="QEF.hpp" />
     <ClInclude Include="SDF.hpp" />
     <ClInclude Include="ShaderLoader.hpp" />
+    <ClInclude Include="Surface.hpp" />
     <ClInclude Include="SVD.hpp" />
     <ClInclude Include="TerrainGenerator.hpp" />
+    <ClInclude Include="ThreadFarm.hpp" />
+    <ClInclude Include="ThreadTask.hpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.frag" />

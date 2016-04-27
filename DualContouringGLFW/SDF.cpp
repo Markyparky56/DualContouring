@@ -17,7 +17,7 @@ void InitaliseTerrainGenerator()
     GTerrainGenerator.SetFreq(1.f);
     GTerrainGenerator.SetLac(1.f);
     GTerrainGenerator.SetPersistence(1.f);
-    GTerrainGenerator.SetScale(1.f);
+    GTerrainGenerator.SetScale(.01f);
 }
 
 // ----------------------------------------------------------------------------
@@ -156,7 +156,7 @@ float DensityFunc(const vec3& worldPosition)
     const float MAX_HEIGHT = 64.0f;
     //const float noise = FractalNoise(4, 0.5343f, 2.2324f, 0.68324f, vec2(worldPosition.x, worldPosition.z));
     //const float noise = OctavedOpenSimplex(1, 1.f, 1.f, 1.f, worldPosition, 0.1f);
-    const float noise = static_cast<float>(GTerrainGenerator.GetValue(worldPosition));
+    const float noise = (static_cast<float>(GTerrainGenerator.GetValue(worldPosition)) * 0.5f); +0.5f;
     const float terrain = worldPosition.y - (MAX_HEIGHT * noise);
 
     //const float cube = Cuboid(worldPosition, vec3(-4., 10.f, -4.f), vec3(12.f));
