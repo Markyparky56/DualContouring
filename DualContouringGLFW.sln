@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DualContouringGLFW", "DualContouringGLFW\DualContouringGLFW.vcxproj", "{885A9800-1E53-4D74-8B32-76BED1EB0C57}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -16,6 +16,8 @@ Global
 		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
 		Release|x86 = Release|x86
+		ReleaseWithTimings|x64 = ReleaseWithTimings|x64
+		ReleaseWithTimings|x86 = ReleaseWithTimings|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Debug|x64.ActiveCfg = Debug|x64
@@ -26,6 +28,10 @@ Global
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x64.Build.0 = Release|x64
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x86.ActiveCfg = Release|Win32
 		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.Release|x86.Build.0 = Release|Win32
+		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.ReleaseWithTimings|x64.ActiveCfg = ReleaseWithTimings|x64
+		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.ReleaseWithTimings|x64.Build.0 = ReleaseWithTimings|x64
+		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.ReleaseWithTimings|x86.ActiveCfg = ReleaseWithTimings|Win32
+		{885A9800-1E53-4D74-8B32-76BED1EB0C57}.ReleaseWithTimings|x86.Build.0 = ReleaseWithTimings|Win32
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Debug|x64.ActiveCfg = Debug|x64
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Debug|x64.Build.0 = Debug|x64
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Debug|x86.ActiveCfg = Debug|Win32
@@ -34,6 +40,10 @@ Global
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Release|x64.Build.0 = Release|x64
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Release|x86.ActiveCfg = Release|Win32
 		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.Release|x86.Build.0 = Release|Win32
+		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.ReleaseWithTimings|x64.ActiveCfg = ReleaseWithTimings|x64
+		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.ReleaseWithTimings|x64.Build.0 = ReleaseWithTimings|x64
+		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.ReleaseWithTimings|x86.ActiveCfg = ReleaseWithTimings|Win32
+		{EFDA08EA-DA84-4AB5-B7B8-FC878FFCED6A}.ReleaseWithTimings|x86.Build.0 = ReleaseWithTimings|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -37,7 +37,7 @@ const ivec3 ChildMinOffsets[] =
 // ----------------------------------------------------------------------------
 // data from the original DC impl, drives the contouring process
 
-template<typename T, int X, int Y> using Array2D = std::array<std::array<T, X>, Y>;
+template<typename T, int X, int Y>        using Array2D = std::array<std::array<T, X>, Y>;
 template<typename T, int X, int Y, int Z> using Array3D = std::array<std::array<std::array<T, X>, Y>, Z>;
 
 const Array2D<int, 2, 12> edgevmap

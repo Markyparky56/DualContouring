@@ -4,9 +4,12 @@
 #include <memory>
 #include <queue>
 #include <mutex>
-
+#include <atomic>
+#include "IdPool.hpp"
 #include "ThreadTask.hpp"
-#include "WorkerThread.hpp"
+using pThread = std::unique_ptr<std::thread>;
+
+
 
 // Simple Thread Farm
 // Creates a specified number of worker threads
@@ -20,11 +23,28 @@ public:
 
     void Run(unsigned int NumWorkerThreads);
     void PushNewTask(ThreadTask *InTask);
-    void WorkerThread();
+
+    //bool Working() 
+    //{ 
+    //    bool emptyQueue = taskQueue.empty();
+    //    bool working = false;
+    //    activeWorkersMutex.lock();
+    //    for (auto& activeWorker : activeWorkers)
+    //    {
+    //        working = activeWorker;
+    //        if (working) break;
+    //    }
+    //    activeWorkersMutex.unlock();
+    //    return emptyQueue && !working;
+    //}
 
 protected:
-    using pThread = std::unique_ptr<std::thread>;
+    void WorkerThread();
+    IdPool workerIdPool;
     std::vector<pThread> workers;
+    // vector of atomics not possible
+    //std::vector<std::atomic<bool>> activeWorkers; 
+    std::mutex activeWorkersMutex;
     std::queue<ThreadTask*> taskQueue;
     std::mutex taskQueueMutex;
 };

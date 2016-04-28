@@ -214,3 +214,4 @@ ModelManifest.xml
 External/
 *.7z
 *.db
+DualContouringGLFW/mainOld.cpp

@@ -1,11 +1,13 @@
 #pragma once
 #include <memory>
-#ifdef _DEBUG
-    #include <chrono>
+#if defined(_DEBUG) | defined(WITH_TIMINGS)
+#include <chrono>
+#include <mutex>
     using hiResClock = std::chrono::high_resolution_clock;
     using std::chrono::milliseconds;
     using std::chrono::duration_cast;
     using fsec = std::chrono::duration<float>;
+    static std::mutex outputMutex;
 #endif // _DEBUG
 
 // Base Thread Task
@@ -22,7 +24,7 @@ public:
 
     struct TaskArgs 
     {
-#ifdef _DEBUG
+#if defined(_DEBUG) | defined(WITH_TIMINGS)
         fsec timeTaken;
 #endif // _DEBUG
     };
@@ -33,7 +35,7 @@ protected:
     static unsigned int TaskCount;
     unsigned int id;
     TaskArgs *args;
-#ifdef _DEBUG
+#if defined(_DEBUG) | defined(WITH_TIMINGS)
     hiResClock clock;
 #endif // _DEBUG
 };
