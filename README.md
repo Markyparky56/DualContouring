@@ -16,5 +16,7 @@ or you may compile them from source.
 or you may compile them from source.
 
 Libnoise is released under the [GNU General Public License](http://libnoise.sourceforge.net/downloads/gpl/COPYING.txt)
+
 [GLEW licensing](https://github.com/nigels-com/glew#copyright-and-licensing)
+
 [GLFW licensing](http://www.glfw.org/license.html)
