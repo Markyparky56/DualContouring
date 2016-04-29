@@ -7,9 +7,8 @@
 #include <atomic>
 #include "IdPool.hpp"
 #include "ThreadTask.hpp"
+#include "Channel.hpp"
 using pThread = std::unique_ptr<std::thread>;
-
-
 
 // Simple Thread Farm
 // Creates a specified number of worker threads
@@ -23,6 +22,8 @@ public:
 
     void Run(unsigned int NumWorkerThreads);
     void PushNewTask(ThreadTask *InTask);
+
+    static Channel<std::string> *outputChannel;
 
     //bool Working() 
     //{ 

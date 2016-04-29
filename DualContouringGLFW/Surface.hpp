@@ -13,7 +13,7 @@ struct Surface
     virtual ~Surface() 
     { 
         DestroyOctree(root); 
-        mesh->Destroy();
+        if(mesh.get() != nullptr) mesh->Destroy();
     }
     OctreeNode *root;
     std::unique_ptr<Mesh> mesh;

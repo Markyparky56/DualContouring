@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <iomanip>
+#include <sstream>
 #include "ThreadTask.hpp"
 #include "Surface.hpp"
 
@@ -42,15 +43,21 @@ public:
 #if defined(_DEBUG) | defined(WITH_TIMINGS)
         auto end = clock.now();
         taskArgs->timeTaken = end - start;
-        outputMutex.lock();
-        std::cout << "Task ID: " << id << " completed in " << std::setprecision(5) << taskArgs->timeTaken.count() << std::endl;;
-        outputMutex.unlock();
+        {            
+            std::stringstream ss;
+            ss << "Task ID: " << id << " completed in " << std::setprecision(5) << taskArgs->timeTaken.count() << std::endl;;
+            std::unique_lock<std::mutex> lock(outputMutex);
+            args->outputChannel->Write(ss.str());
+        }
 #endif // _DEBUG
 
         // Queue a new task
         ThreadTask *contourTask = new ContourTask;
         ContourTask::Args *contourTaskArgs = new ContourTask::Args;
         contourTaskArgs->surface = taskArgs->surface;
+#if defined(_DEBUG) | defined(WITH_TIMINGS)
+        contourTaskArgs->outputChannel = taskArgs->outputChannel;
+#endif
         taskArgs->contourTaskPtr = contourTaskArgs;
         contourTask->SetArgs(contourTaskArgs);
         taskArgs->farm->PushNewTask(contourTask);

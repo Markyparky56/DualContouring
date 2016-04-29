@@ -2,6 +2,7 @@
 #include "ThreadTask.hpp"
 #include "Octree.hpp"
 #include "Mesh.hpp"
+#include <sstream>
 
 class ContourTask : public ThreadTask
 {
@@ -29,9 +30,12 @@ public:
 #if defined(_DEBUG) | defined(WITH_TIMINGS)
         auto end = clock.now();
         taskArgs->timeTaken = end - start;
-        outputMutex.lock();
-        std::cout << "Task ID: " << id << " completed in " << std::setprecision(5) << taskArgs->timeTaken.count() << std::endl;;
-        outputMutex.unlock();
+        {            
+            std::stringstream ss;
+            ss << "Task ID: " << id << " completed in " << std::setprecision(5) << taskArgs->timeTaken.count() << std::endl;;
+            std::unique_lock<std::mutex> lock(outputMutex);
+            args->outputChannel->Write(ss.str());
+        }
 #endif // _DEBUG
     }
 

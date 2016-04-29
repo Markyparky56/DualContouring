@@ -29,7 +29,7 @@ void Mesh::UploadData(const VertexBuffer & vertices, const IndexBuffer & indices
     numIndices = indices.size();
     
     outputMutex.lock();
-    std::cout << "Mesh generated with " << static_cast<int>(vertices.size()) << " and " << static_cast<int>(numIndices) / 3 << " triangles" << std::endl;
+    std::cout << "Mesh generated with " << static_cast<int>(vertices.size()) << " vertices and " << static_cast<int>(numIndices) / 3 << " triangles" << std::endl;
     outputMutex.unlock();
 }
 

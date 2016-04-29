@@ -156,7 +156,9 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(ProjectDir)shader.frag" "$(OutDir)"
-xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
+xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"
+xcopy /y "$(ProjectDir)TestCase.bat" "$(OutDir)"
+xcopy /y "$(ProjectDir)TestCase - 8threads.bat" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='ReleaseWithTimings|x64'">
@@ -183,7 +185,9 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
     </Link>
     <PostBuildEvent>
       <Command>xcopy /y "$(ProjectDir)shader.frag" "$(OutDir)"
-xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
+xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"
+xcopy /y "$(ProjectDir)TestCase.bat" "$(OutDir)"
+xcopy /y "$(ProjectDir)TestCase - 8threads.bat" "$(OutDir)"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -204,6 +208,7 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
   <ItemGroup>
     <ClInclude Include="app.hpp" />
     <ClInclude Include="Bias.hpp" />
+    <ClInclude Include="Channel.hpp" />
     <ClInclude Include="ContourTask.hpp" />
     <ClInclude Include="GenerateTask.hpp" />
     <ClInclude Include="Gradient.hpp" />
@@ -223,6 +228,8 @@ xcopy /y "$(ProjectDir)shader.vert" "$(OutDir)"</Command>
   <ItemGroup>
     <None Include="shader.frag" />
     <None Include="shader.vert" />
+    <None Include="TestCase - 8threads.bat" />
+    <None Include="TestCase.bat" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

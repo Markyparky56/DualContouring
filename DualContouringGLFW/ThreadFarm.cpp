@@ -1,6 +1,7 @@
 #include "ThreadFarm.hpp"
 #include <iostream>
 #include <functional>
+#include <sstream>
 
 unsigned int ThreadTask::TaskCount = 0;
 
@@ -65,8 +66,11 @@ void ThreadFarm::WorkerThread()
         // Delete it
         delete task;
     }
-    outputMutex.lock();
-    std::cout << "Worker " << id << " finished" << std::endl;
-    outputMutex.unlock();
+    {
+        std::stringstream ss;
+        ss << "Worker " << id << " finished" << std::endl;
+        std::unique_lock<std::mutex> lock(outputMutex);
+        outputChannel->Write(ss.str());
+    }
     workerIdPool.ReturnID(id);
 }

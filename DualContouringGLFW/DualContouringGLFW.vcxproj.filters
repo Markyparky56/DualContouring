@@ -113,12 +113,21 @@
     <ClInclude Include="IdPool.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Channel.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shader.vert">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shader.frag">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TestCase.bat">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="TestCase - 8threads.bat">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

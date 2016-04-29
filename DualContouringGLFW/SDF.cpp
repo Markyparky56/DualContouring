@@ -93,61 +93,6 @@ double OctavedOpenSimplex(const int octaves,
 }
 
 // ----------------------------------------------------------------------------
-/*
-// double TerrainNoise(const vec3& pos, 
-                    // const int octaves, 
-                    // const float freq, 
-                    // const float lac, 
-                    // const float persistence
-                    // const float scale = 1.0f)
-// {
-    // // Ground: Gradient basis
-    // module::Gradient ground;
-    // // Lowland: Billow
-    // module::Billow lowland;
-    // module::Clamp lowlandClamp;
-    // module::ScaleBias lowlandScale;
-    // // Highland: Perlin
-    // module::Perlin highland;
-    // module::Clamp highlandClamp;
-    // module::ScaleBias highlandScale;    
-    // // Mountains: Ridged Multi
-    // module::RidgedMulti mountain;
-    // module::Clamp mountainClamp;
-    // module::ScaleBias mountainScale;
-    // // Terrain Type: Perlin
-    // module::Perlin terrainType;
-    // module::Clamp terrainTypeClamp;    
-    // module::Select highlandMountainSelect;    
-    // module::Select highlandLowlandSelect;    
-    // module::Const one;
-    // module::Const zero;    
-    // module::Select groundSelect;    
-    // // Caves: 2 Ridged Multis
-    // module::Bias caveBias;
-    // module::RidgedMulti cave1;
-    // module::RidgedMulti cave2;    
-    // module::Multiply caveShape1;
-    // module::Multiply caveShape2;    
-    // module::Perlin cavePeturb;
-    // module::ScaleBias cavePeturbScale;
-    // module::Select caveSelect;    
-    // module::Multiply groundCaveMultiply;        
-    // vec3 p = pos * scale;
-    // double value = 0.0f;
-    // float amplitude = 1.0f;
-    // p *= freq;    
-    // for(int i = 0; i < octaves; i++)
-    // {
-        // noise += groundCaveMultiply.GetValue(p.x, p.y, p.z) * amplitude;
-        // p *= lac;
-        // amplitude *= persistence;
-    // }    
-    // return value;
-// }
-*/
-
-// ----------------------------------------------------------------------------
 
 float DensityFunc(const vec3& worldPosition)
 {
@@ -162,5 +107,6 @@ float DensityFunc(const vec3& worldPosition)
     //const float cube = Cuboid(worldPosition, vec3(-4., 10.f, -4.f), vec3(12.f));
     //const float sphere = Sphere(worldPosition, vec3(0.0f), 16.f);
 
-    return /*glm::max(-sphere, */terrain/*)*/;// glm::max(-cube, glm::min(sphere, terrain));
+    //return glm::max(-cube, glm::min(sphere, terrain));
+    return terrain;
 }

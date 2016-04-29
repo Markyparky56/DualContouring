@@ -7,6 +7,7 @@
 #include "GenerateTask.hpp"
 
 vec3 DrawQueueSort::camPos = vec3(0.f);
+Channel<std::string> *ThreadFarm::outputChannel = nullptr;
 
 std::priority_queue<Surface*, std::deque<Surface*>, DrawQueueSort> GetDrawQueue(std::array< std::array< std::unique_ptr<Surface>, 3>, 3>& objects)
 {
@@ -24,6 +25,7 @@ std::priority_queue<Surface*, std::deque<Surface*>, DrawQueueSort> GetDrawQueue(
 App::App()
     : running(true)
     , optionToggleGracePeriod(0.2f)
+    , wireframeMode(false)
 {
 }
 
@@ -31,7 +33,7 @@ App::~App()
 {
 }
 
-int App::Init()
+int App::Init(const int InNumThreads)
 {
     // Initalise GLFW
     if (!glfwInit())
@@ -99,70 +101,88 @@ int App::Init()
     {
         for (size_t x = 0; x < surfaces[y].size(); x++)
         {
-            surfaces[y][x] = std::unique_ptr<Surface>(new Surface);
+            surfaces[y][x] = std::make_unique<Surface>();
             surfaces[y][x]->position = vec3((static_cast<int>(x)-1)*OctreeSize, 0.f, (static_cast<int>(y)-1)*OctreeSize);
         }
     }
 
-    // Workout how many threads we can use
-    numThreads = std::thread::hardware_concurrency();
-    // If we can, reserve 2 for the main thread and the render thread
-    if (numThreads > 2) numThreads -= 2;
+    if (InNumThreads == -1 || InNumThreads < 1)
+    {
+        // Workout how many threads we can use
+        numThreads = std::thread::hardware_concurrency();
+        // If we can, reserve 2 for the main thread and the render thread
+        if (numThreads > 2) numThreads -= 2;
+    }
+    else
+    {
+        numThreads = InNumThreads;
+    }
 
     farm = std::make_unique<ThreadFarm>();
+    outputChannel = std::make_unique<Channel<std::string>>();
+    ThreadFarm::outputChannel = outputChannel.get();
 
     glfwMakeContextCurrent(NULL); // Give up the context
 
     return 0;
 }
 
-int App::Run()
+int App::Run(bool TestMode)
 {    
     // Start the render thread
     renderThread = pThread(new std::thread(std::mem_fun(&App::RenderThread), this));
 
+    // Start the output thread to pull from the outputChannel
+    outputThread = pThread(new std::thread(std::mem_fun(&App::OutputThread), this));
+
     // Start generating surfaces
     const std::vector<float> Thresholds{ -1.f, 0.1f, 1.f, 10.f, 50.f };
-    int currentThresholdIndex = 0;
+    int nextThresholdIndex = 0, thresholdTestCount = 0;
     //GenerateSurfaces(Thresholds[currentThresholdIndex]);
     regenerateSurfaces = true;
+    regeneratingSurfaces = false;
 
-    prev = clock.now();
-    while (true)
+    if(TestMode)
     {
-        auto now = clock.now();
-        delta = now - prev;
-        prev = now;
+        std::stringstream ss;
+        ss << "Beginning Test Sequence..." << std::endl;
+        std::unique_lock<std::mutex> lock(outputMutex);
+        outputChannel->Write(ss.str());
+    }
 
-        runTime += delta.count();
-
-        outputMutex.lock();
-        std::string title = "DualContouring FPS: " + std::to_string(1.f / delta.count());
-        outputMutex.unlock();
-        glfwSetWindowTitle(window, title.c_str());
+    while (running)
+    {
+        //deltaMutex.lock();
+        //std::string title = "DualContouring FPS: " + std::to_string(1.f / delta.count());
+        //glfwSetWindowTitle(window, title.c_str());
+        //deltaMutex.unlock();
 
         // Process inputs and events
         glfwPollEvents();
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS
-         || glfwWindowShouldClose(window)) // May be unable to call glfwWindowShouldClose from here
+         || glfwWindowShouldClose(window) 
+         || thresholdTestCount == static_cast<int>(Thresholds.size()) && !regeneratingSurfaces) // Only important during a test run
         {
             running = false; // End RenderThread
-            break;
+            outputChannel->Exit(); // Break out of the channel's wait loop
+            continue;
         }
-        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS && !TestMode)
         {
             if (runTime > wireframeModeTime + optionToggleGracePeriod)
             {
-                wireframeModeMutex.lock();
+                std::unique_lock<std::mutex> lock(wireframeModeMutex);
                 wireframeMode = !wireframeMode;
                 wireframeModeTime = static_cast<float>(runTime);
-                outputMutex.lock();
-                std::cout << "Wireframe mode " << ((wireframeMode) ? "enabled" : "disabled") << std::endl;
-                outputMutex.unlock();
-                wireframeModeMutex.unlock();
+                {
+                    std::stringstream ss;
+                    ss << "Wireframe mode " << ((wireframeMode) ? "enabled" : "disabled") << std::endl;
+                    std::unique_lock<std::mutex> lock(outputMutex);
+                    outputChannel->Write(ss.str());
+                }
             }
         }
-        if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS)
+        if (glfwGetKey(window, GLFW_KEY_F1) == GLFW_PRESS && !TestMode)
         {
             if (runTime > regenerateTime + optionToggleGracePeriod)
             {
@@ -170,22 +190,51 @@ int App::Run()
                 regenerateTime = static_cast<float>(runTime);
             }
         }
+        if (TestMode == true)
+        {
+            if (regeneratingSurfaces == false && thresholdTestCount < static_cast<int>(Thresholds.size()))
+            {
+                regenerateSurfaces = true;
+                thresholdTestCount++;
+            }
+        }
 
         if (regenerateSurfaces == true && regeneratingSurfaces == false)
         {
             regeneratingSurfaces = true;
-            outputMutex.lock();
-            std::cout << "\nGenerating Meshes with threshold: " << Thresholds[currentThresholdIndex] << std::endl;
-            outputMutex.unlock();
-            std::thread genThread([&]{ GenerateSurfaces(Thresholds[currentThresholdIndex]); });
-            currentThresholdIndex = (currentThresholdIndex + 1) % static_cast<int>(Thresholds.size());
+            {                
+                std::stringstream ss;
+                ss << "\nGenerating Meshes with threshold: " << Thresholds[nextThresholdIndex] << std::endl;
+                std::unique_lock<std::mutex> lock(outputMutex);
+                outputChannel->Write(ss.str());
+            }
+            std::thread genThread([&]{ GenerateSurfaces(Thresholds[nextThresholdIndex]); });
+            nextThresholdIndex = (nextThresholdIndex + 1) % static_cast<int>(Thresholds.size());
             genThread.detach(); // Continue on and don't hang the main thread
             regenerateSurfaces = false;
         }
     }
+
+    std::stringstream ss;
+    ss << "\nTotal execution time: " << runTime;
+    std::cout << ss.str();
+
     renderThread->join();
+    outputThread->join();
     glfwTerminate();
     return EXIT_SUCCESS;
+}
+
+void App::OutputThread()
+{
+    while (running)
+    {
+        std::string output = outputChannel->Read();
+        if (!output.empty())
+        {
+            std::cout << output;
+        }
+    }
 }
 
 void App::RenderThread()
@@ -195,9 +244,17 @@ void App::RenderThread()
 
     static float rotateX = DegToRad(-45.f), rotateY = 0.f;
     float distance = static_cast<float>(OctreeSize)*2.f;
+    prev = clock.now();
 
     while (running)
     {
+        auto now = clock.now();
+        deltaMutex.lock();
+        delta = now - prev;  
+        runTime += delta.count();
+        deltaMutex.unlock();
+        prev = now;
+
         // Workout where the camera is
         rotateY += DegToRad(15.f)*delta.count();
         glm::vec3 dir(0.f, 0.f, 1.f);
@@ -282,6 +339,9 @@ void App::GenerateSurfaces(float Threshold)
         {
             GenerateTask *task = new GenerateTask;
             GenerateTask::Args *args = new GenerateTask::Args;
+#if defined(_DEBUG) || defined(WITH_TIMINGS) // Task's don't need to output in release mode
+            args->outputChannel = outputChannel.get();
+#endif
             args->farm = farm.get();
             args->surface = x->get();
             args->threshold = Threshold;

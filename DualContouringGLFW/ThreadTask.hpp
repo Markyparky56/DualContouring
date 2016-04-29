@@ -1,14 +1,17 @@
 #pragma once
 #include <memory>
+#include <mutex>
 #if defined(_DEBUG) | defined(WITH_TIMINGS)
 #include <chrono>
-#include <mutex>
+
+#include "Channel.hpp"
     using hiResClock = std::chrono::high_resolution_clock;
     using std::chrono::milliseconds;
     using std::chrono::duration_cast;
     using fsec = std::chrono::duration<float>;
+#endif // _DEBUG    
     static std::mutex outputMutex;
-#endif // _DEBUG
+
 
 // Base Thread Task
 // Friends with the ThreadFarm
@@ -26,6 +29,7 @@ public:
     {
 #if defined(_DEBUG) | defined(WITH_TIMINGS)
         fsec timeTaken;
+        Channel<std::string> *outputChannel;
 #endif // _DEBUG
     };
     inline void SetArgs(TaskArgs *InArgs) { args = InArgs; }

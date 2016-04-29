@@ -9,6 +9,7 @@
 
 #include "ThreadFarm.hpp"
 #include "Surface.hpp"
+#include "Channel.hpp"
 
 #define DegToRad(deg)((glm::pi<float>() * deg)/180.0f)
 
@@ -44,13 +45,14 @@ public:
     App();
     ~App();
 
-    int Init();
-    int Run();
+    int Init(const int InNumThreads);
+    int Run(const bool TestMode);
 
 private:
     hiResClock clock;
     hiResClock::time_point prev;
     fsec delta;
+    std::mutex deltaMutex;
 
     bool running;
     bool regenerateSurfaces, regeneratingSurfaces;
@@ -63,6 +65,7 @@ private:
     float wireframeModeTime, regenerateTime;
 
     void RenderThread();
+    void OutputThread();
     void DrawSurface(Surface* surface);
     void GenerateSurfaces(float Threshold);
 
@@ -73,7 +76,9 @@ private:
     GLuint shaderProgramID;
 
     pThread renderThread;
+    pThread outputThread;
 
     int numThreads;
     std::unique_ptr<ThreadFarm> farm;
+    std::unique_ptr< Channel<std::string> > outputChannel;
 };
