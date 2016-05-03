@@ -210,8 +210,13 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+
 *.opendb
-External/
 *.7z
 *.db
 DualContouringGLFW/mainOld.cpp
+External/include
+External/libnoiseheaders-1.0.0
+!External/lib/Debug
+!External/lib/Release
+!External/lib/ReleaseWithTimings

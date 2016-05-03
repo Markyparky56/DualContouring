@@ -1,0 +1,4 @@
+Required:
+glew32d.lib
+glfw3.lib
+glfw3dll.lib
